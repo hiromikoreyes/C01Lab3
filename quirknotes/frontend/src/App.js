@@ -62,8 +62,25 @@ function App() {
     }
   }
 
-  const deleteAllNotes = () => {
+  const deleteAllNotes = async () => {
     // Code for DELETE all notes here
+    try{
+      await fetch(`http://localhost:4000/deleteAllNotes`, {
+        method: 'DELETE'
+      }).then(async (response) =>{
+        if(!response.ok){
+          console.log(`Served failed:`, response.status)
+        } else {
+          console.log(`Successful Deletion Of All:`, response.status)
+          await response.json().then((data)=>{
+            deleteAllNotesState()
+          })
+
+        }
+      })
+    } catch{
+
+    }
   }
 
   
@@ -100,6 +117,8 @@ function App() {
 
   const deleteAllNotesState = () => {
     // Code for modifying state after DELETE all here
+    setNotes([])
+
   }
 
   const patchNoteState = (_id, title, content) => {
