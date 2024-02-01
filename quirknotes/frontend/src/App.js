@@ -9,6 +9,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [notes, setNotes] = useState(undefined)
 
+
   // -- Dialog props-- 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogNote, setDialogNote] = useState(null)
@@ -103,10 +104,23 @@ function App() {
 
   const patchNoteState = (_id, title, content) => {
     // Code for modifying state after PATCH here
+    let newNotes = []
+
     setNotes((notes) => {
-      notes = notes.filter((entry) => entry._id !== _id);
-      notes = [... notes, {_id, title, content}];
+      
+        console.log(newNotes)
+        notes.forEach(item => {
+          if(item._id === _id){
+            newNotes.push({_id, title, content})
+          } else{
+            newNotes.push(item)
+          }
+        });
+
+        console.log(newNotes)
+        return newNotes
     })
+
   }
 
   return (
@@ -155,7 +169,7 @@ function App() {
           initialNote={dialogNote}
           closeDialog={closeDialog}
           postNote={postNoteState}
-          // patchNote={patchNoteState}
+          patchNote={patchNoteState}
           />
 
       </header>
